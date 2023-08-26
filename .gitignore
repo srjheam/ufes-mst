@@ -1,0 +1,15 @@
+# Exclude giovanni
+giovanni
+
+# Diretório de exemplos
+exemplos/
+
+
+
+# Arquivos gerados pelos programas
+*.bin
+*.txt
+*.csv
+
+# Saida do valgrind gerada por meio do Makefile
+valgrind-out.txt
