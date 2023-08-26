@@ -33,6 +33,52 @@ MST foi o trabalho final desenvolvido ao longo da disciplina de Técnicas de Bus
    make
    ```
 
+#### Python
+
+A fim de rodar o tsp_plot e as análises com Jupyter Notebook. Novos requisitos são adicionados:
+
+- [Python 3](https://www.python.org/)
+- [pip](https://pypi.org/project/pip/)
+
+1. Crie um venv
+
+    ```sh
+    python3 -m venv ufes-mst
+    ```
+
+2. Ative o venv
+
+    ```sh
+    source ufes-mst/bin/activate
+    ```
+
+3. Instale os pacotes
+
+    ```sh
+    pip install -r requirements.txt
+    ```
+
+    3.1. Atualize o requirements.txt ao adicionar ou remover algum pacote
+
+        ```sh
+        pip freeze > requirements.txt
+        ```
+
+4. Garanta que o Jupyter Notebook está com o kernel conectado ao venv ufes-mst
+
+5. Por fim, saia do venv. Opcional.
+
+    ```sh
+    deactivate
+    ```
+
+Caso tenha problemas com esse que é o pior gerenciador de pacotes e ambientes do mundo todo:
+
+- [ppa](https://packaging.python.org/en/latest/guides/installing-using-pip-and-virtual-environments/)
+- [Google](https://www.google.com/)
+- [Chat GPT](https://chat.openai.com/)
+- [Pressione o labgrad a adicionar o Anaconda aos PCs do Lab](mailto:monitores@inf.ufes.br)
+
 ## Usando
 
 Intruções de uso para o giovanni.

@@ -4,11 +4,11 @@ giovanni
 # Diretório de exemplos
 exemplos/
 
-
+# venv
+ufes-mst/
 
 # Arquivos gerados pelos programas
 *.bin
-*.txt
 *.csv
 
 # Saida do valgrind gerada por meio do Makefile
