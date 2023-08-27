@@ -1,25 +1,17 @@
-GIOVANNI    = giovanni
-VALGRINDOUT = valgrind-out.txt
+# Esse Makefile é apenas um wrapper para cumprir com as especificações do trabalho.
 
-CC = gcc
-override CFLAGS += -Wall -Wextra -pedantic -lm
+MAKE = make
 
-all: build-release
+OUTRELEASEPATH = src/build/release/main
 
-build-release: giovanni.c
-	$(CC) -o $(GIOVANNI) $< $(CFLAGS) -O3
+all: release
 
-build-debug: giovanni.c
-	$(CC) -o $(GIOVANNI) $< $(CFLAGS) -ggdb3
+release:
+	$(MAKE) -C src/
+	cp -f $(OUTRELEASEPATH) ./trab1
 
-valgrind: build-debug
-	rm -f $(VALGRINDOUT)
+clean:
+	$(MAKE) -C src/ clean
 
-	valgrind --leak-check=full \
-			 --show-leak-kinds=all \
-			 --track-origins=yes \
-			 --verbose \
-			 --log-file=$(VALGRINDOUT) \
-			 ./$(GIOVANNI) $(VALARGS)
-
-	@echo "Head to $(VALGRINDOUT)"
+valgrind:
+	$(MAKE) -C src/ valgrind
