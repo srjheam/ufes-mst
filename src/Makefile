@@ -30,6 +30,8 @@ RELEASEFLAGS = -O3 -DNDEBUG
 
 MAKE = make
 
+VALGRINDOUT = valgrind-out.txt
+
 all : release
 
 release : pre-build-release build-release

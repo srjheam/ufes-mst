@@ -12,6 +12,9 @@ release:
 
 clean:
 	$(MAKE) -C src/ clean
+	rm -f trab1
+	rm -f valgrind-out.txt
 
 valgrind:
 	$(MAKE) -C src/ valgrind
+	cp -f src/valgrind-out.txt ./valgrind-out.txt
