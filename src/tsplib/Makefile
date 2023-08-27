@@ -8,18 +8,26 @@
 # LIBNAME   - nome base da biblioteca do projeto
 # LIBTARGET - é o caminho para a biblioteca compilada
 # SRCS      - lista com os caminhos para todos .c
-# OBJS      - lista com os caminhos para todos .o
 INCLUDE = include
 BUILDIR = build
+DEBUGDIR = $(BUILDIR)/debug
+RELEASEDIR = $(BUILDIR)/release
 LIBNAME = tsp
 LIBTARGET = lib$(LIBNAME).a
 SRCS = $(shell find . -type f -name '*.c' | sed 's|^./||')
-OBJS = $(patsubst %.c, $(BUILDIR)/%.o, $(notdir $(SRCS)))
+
+# OBJS_DEBUG   - lista com os caminhos para todos .o
+# OBJS_RELEASE - lista com os caminhos para todos .o
+OBJSDEBUG = $(patsubst %.c, $(BUILDIR)/debug/%.o, $(notdir $(SRCS)))
+OBJSRELEASE = $(patsubst %.c, $(BUILDIR)/release/%.o, $(notdir $(SRCS)))
 
 # CCompiler - é o compilador usado
 # CFLAGS - são as flags dadas ao compilador durante a compilação
 CC = gcc
-override CFLAGS += -Wall -Wextra -pedantic -I $(INCLUDE) -lm -O3
+override CFLAGS += -Wall -Wextra -pedantic -I $(INCLUDE) -lm
+
+DEBUGFLAGS = -ggdb3 -O0 -DDEBUG
+RELEASEFLAGS = -O3 -DNDEBUG
 
 # ARchive - é o comando arquivador da biblioteca
 # ARFLAGS - são as flags dadas ao arquivador
@@ -31,25 +39,35 @@ ARFLAGS = rcs
 #   - não me pergunte mais nada, eu não sei como funciona
 vpath %.c $(shell dirname $(SRCS) | uniq)
 
-all : pre-build build
+all : release
 
-debug:
-    CFLAGS -= -O3
-	CFLAGS += -ggdb3
+release : pre-build-release build-release
 
-debug: pre-build build
+debug: pre-build-debug build-debug
 
 # Compila todos os .o
-$(BUILDIR)/%.o : %.c
-	$(CC) -o $@ -c $< $(CFLAGS)
+$(BUILDIR)/release/%.o : %.c
+	$(CC) -o $@ -c $< $(CFLAGS) $(RELEASEFLAGS)
+
+$(BUILDIR)/debug/%.o : %.c
+	$(CC) -o $@ -c $< $(CFLAGS) $(DEBUGFLAGS)
 
 # Preparativos para o build; Garante que o diretório build/ existe
 pre-build:
 	mkdir -p $(BUILDIR)/
 
-build : $(OBJS)
-	$(AR) $(ARFLAGS) $(LIBTARGET) $^
+pre-build-release: pre-build
+	mkdir -p $(RELEASEDIR)/
+
+pre-build-debug: pre-build
+	mkdir -p $(DEBUGDIR)/
+
+build-release : $(OBJSRELEASE)
+	$(AR) $(ARFLAGS) $(RELEASEDIR)/$(LIBTARGET) $^
+
+build-debug : $(OBJSDEBUG)
+	$(AR) $(ARFLAGS) $(DEBUGDIR)/$(LIBTARGET) $^
 
 # Rode make clean para remover tudo que é gerado pela build
 clean:
-	rm -rf $(BUILDIR)/ $(LIBTARGET)
+	rm -rf $(BUILDIR)/
