@@ -112,6 +112,13 @@ Onde,
 
 - `args` - são os argumentos para passar ao programa. Opcional.
 
+## To-do
+
+- [ ] Giovanni-minify
+    Transpilador que pega a base de código ~bem~ mal organizada e combina tudo em um único giovanni.c provando que é possível fazer o trabalho com <1000 linhas.
+- [ ] Chuu de LOONA jumpscare
+- [ ] O trabalho. (opcional)
+
 ## Suporte
 
 Esse programa não funciona em ambientes não-POSIX e pode até mesmo não funcionar em sistemas não-Linux.

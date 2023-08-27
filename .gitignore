@@ -1,6 +1,10 @@
 # Exclude giovanni
 giovanni
 
+# build n archive artifacts
+*.o
+*.a
+
 # Diretório de exemplos
 exemplos/
 
