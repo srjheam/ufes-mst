@@ -88,13 +88,12 @@ Intruções de uso para o giovanni.
 giovanni.
 
 ```sh
-./giovanni <gio> <vanni>
+./trab1 <tsp_file>
 ```
 
 Onde,
 
-- `gio` - é o arquivo (train.txt) que contém os nomes dos documentos e as classes.
-- `vanni` - é o arquivo binário de saída com os índices.
+- `tsp_file` - é uma instância do TSP.
 
 ## Contribuindo
 
