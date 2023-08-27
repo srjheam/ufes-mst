@@ -1,14 +1,18 @@
 # Exclude giovanni
 giovanni
 
+trab1
+
 # build n archive artifacts
+build/
 *.o
 *.a
 
 # Diretório de exemplos
 exemplos/
 
-# venv
+# python shit
+__pycache__/
 ufes-mst/
 
 # Arquivos gerados pelos programas
