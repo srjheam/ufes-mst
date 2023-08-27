@@ -5,7 +5,12 @@
 
 int main(int argc, char const *argv[])
 {
-    puts("Hello World!");
+    if (argc != 2) {
+        fprintf(stderr, "Usage: %s <tsp_file>\n", argv[0]);
+        return EXIT_FAILURE;
+    }
+
+    
 
     return EXIT_SUCCESS;
 }
