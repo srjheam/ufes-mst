@@ -3,8 +3,8 @@
   "tasks": [
     {
       "type": "shell",
-      "label": "build",
-      "command": "make clean && make",
+      "label": "build debug",
+      "command": "make debug",
       "problemMatcher": [
         "$gcc"
       ],
@@ -12,6 +12,9 @@
         "kind": "build",
         "isDefault": true
       },
+      "options": {
+        "cwd": "${workspaceFolder}/src/"
+    },
     }
   ]
 }

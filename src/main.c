@@ -10,7 +10,7 @@ int main(int argc, char const *argv[])
         return EXIT_FAILURE;
     }
 
-    
+    puts("Hello, world!");
 
     return EXIT_SUCCESS;
 }
