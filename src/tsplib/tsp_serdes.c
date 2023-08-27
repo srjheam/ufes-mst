@@ -20,10 +20,10 @@ Tsp *tsplib_deserialize(FILE *f) {
     }
 
     // jump COMMENT line
-    fscanf(f, "%*[^\n]\n");
+    if(fscanf(f, "%*[^\n]\n")){};
 
     // jump TYPE line
-    fscanf(f, "%*[^\n]\n");
+    if(fscanf(f, "%*[^\n]\n")){};
 
     enum TspType type = TSP;
 
@@ -31,21 +31,21 @@ Tsp *tsplib_deserialize(FILE *f) {
     fseek(f, 11, SEEK_CUR);
 
     int dimension;
-    fscanf(f, "%d", &dimension);
+    if(fscanf(f, "%d", &dimension)){};
 
     // jump EDGE_WEIGHT_TYPE line
-    fscanf(f, "%*[^\n]\n");
+    if(fscanf(f, "%*[^\n]\n")){};
 
     enum EdgeWeightType edge_weight_type = EUC_2D;
 
     // jump NODE_COORD_SECTION line
-    fscanf(f, "%*[^\n]\n");
+    if(fscanf(f, "%*[^\n]\n")){};
 
     NodeCoord *node_coords = malloc((sizeof *node_coords) * dimension);
     for (int i = 0; i < dimension; i++) {
         int id;
         double x, y;
-        fscanf(f, "%d %lf %lf", &id, &x, &y);
+        if(fscanf(f, "%d %lf %lf", &id, &x, &y)){};
 
         node_coords[i].id = id;
         node_coords[i].x = x;
