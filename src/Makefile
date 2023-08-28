@@ -14,6 +14,11 @@ LIBTSP          = tsp
 LIBTSPDIRRELEASE = $(LIBTSPDIR)/build/release
 LIBTSPDIRDEBUG   = $(LIBTSPDIR)/build/debug
 
+LIBCONTAINERSDIR       = containerslib
+LIBCONTAINERS          = containers
+LIBCONTAINERSDIRRELEASE = $(LIBCONTAINERSDIR)/build/release
+LIBCONTAINERSDIRDEBUG   = $(LIBCONTAINERSDIR)/build/debug
+
 OUT            = main
 
 BUILDIR = build
@@ -23,7 +28,7 @@ RELEASEDIR = $(BUILDIR)/release
 # CCompiler - é o compilador usado
 # CFLAGS - são as flags dadas ao compilador durante a compilação
 CC = gcc
-override CFLAGS += -Wall -Wextra -pedantic -I $(LIBTSPDIR)/include -I $(LIBTOURDIR)/include -lm
+override CFLAGS += -Wall -Wextra -I $(LIBTSPDIR)/include -I $(LIBTOURDIR)/include -I $(LIBCONTAINERSDIR)/include -lm
 
 DEBUGFLAGS = -ggdb3 -O0 -DDEBUG
 RELEASEFLAGS = -O3 -DNDEBUG
@@ -46,23 +51,26 @@ pre-build-release: pre-build
 	mkdir -p $(RELEASEDIR)/
 	$(MAKE) -C $(LIBTOURDIR)/
 	$(MAKE) -C $(LIBTSPDIR)/
+	$(MAKE) -C $(LIBCONTAINERSDIR)/
 
 pre-build-debug: pre-build
 	mkdir -p $(DEBUGDIR)/
 	$(MAKE) -C $(LIBTOURDIR)/ debug
 	$(MAKE) -C $(LIBTSPDIR)/ debug
+	$(MAKE) -C $(LIBCONTAINERSDIR)/ debug
 
 build-release : main.c
-	$(CC) -o $(RELEASEDIR)/$(OUT) $< -L $(LIBTOURDIRRELEASE) -l$(LIBTOUR) -L $(LIBTSPDIRRELEASE) -l$(LIBTSP) $(CFLAGS) $(RELEASEFLAGS)
+	$(CC) -o $(RELEASEDIR)/$(OUT) $< -L $(LIBTOURDIRRELEASE) -l$(LIBTOUR) -L $(LIBTSPDIRRELEASE) -l$(LIBTSP) -L $(LIBCONTAINERSDIRRELEASE) -l$(LIBCONTAINERS) $(CFLAGS) $(RELEASEFLAGS)
 
 build-debug : main.c
-	$(CC) -o $(DEBUGDIR)/$(OUT) $< -L $(LIBTOURDIRDEBUG) -l$(LIBTOUR) -L $(LIBTSPDIRDEBUG) -l$(LIBTSP) $(CFLAGS) $(DEBUGFLAGS)
+	$(CC) -o $(DEBUGDIR)/$(OUT) $< -L $(LIBTOURDIRDEBUG) -l$(LIBTOUR) -L $(LIBTSPDIRDEBUG) -l$(LIBTSP) -L $(LIBCONTAINERSDIRDEBUG) -l$(LIBCONTAINERS) $(CFLAGS) $(DEBUGFLAGS)
 
 # Rode make clean para remover tudo que é gerado pela build
 clean:
 	rm -rf $(BUILDIR)/ $(VALGRINDOUT)
 	$(MAKE) -C $(LIBTOURDIR)/ clean
 	$(MAKE) -C $(LIBTSPDIR)/ clean
+	$(MAKE) -C $(LIBCONTAINERSDIR)/ clean
 
 valgrind: debug
 	rm -f $(VALGRINDOUT)
