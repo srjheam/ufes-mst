@@ -1,7 +1,8 @@
-#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
+
+#include "tsplib/tsp_serdes.h"
+#include "tourlib/traveler.h"
 
 int main(int argc, char const *argv[])
 {
@@ -10,7 +11,10 @@ int main(int argc, char const *argv[])
         return EXIT_FAILURE;
     }
 
-    puts("Hello, world!");
+    FILE *f = fopen(argv[1], "r");
+    Tsp *tsp = tsplib_tsp_deserialize(f);
+
+    tsplib_tsp_free(tsp);
 
     return EXIT_SUCCESS;
 }

@@ -2,7 +2,7 @@
 
 #include "tsplib/tsp_serdes.h"
 
-Tsp *tsplib_deserialize(FILE *f) {
+Tsp *tsplib_tsp_deserialize(FILE *f) {
     // the current implementation assumes
     // that the file is valid and well-formed;
     // the type is always TSP;
@@ -33,19 +33,17 @@ Tsp *tsplib_deserialize(FILE *f) {
     int dimension;
     if(fscanf(f, "%d", &dimension)){};
 
-    // jump EDGE_WEIGHT_TYPE line
-    if(fscanf(f, "%*[^\n]\n")){};
-
     enum EdgeWeightType edge_weight_type = EUC_2D;
 
-    // jump NODE_COORD_SECTION line
-    if(fscanf(f, "%*[^\n]\n")){};
+    // jump EDGE_WEIGHT_TYPE, NODE_COORD_SECTION line
+    fseek(f, 44, SEEK_CUR);
 
     NodeCoord *node_coords = malloc((sizeof *node_coords) * dimension);
     for (int i = 0; i < dimension; i++) {
         int id;
         double x, y;
         if(fscanf(f, "%d %lf %lf", &id, &x, &y)){};
+        
 
         node_coords[i].id = id;
         node_coords[i].x = x;

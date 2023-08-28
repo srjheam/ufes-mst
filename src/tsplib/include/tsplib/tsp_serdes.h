@@ -8,6 +8,6 @@
 /// @brief Parses the TSP file into a Tsp structure.
 /// @param f The TSP file to parse.
 /// @return A Tsp structure representing the TSP file.
-Tsp *tsplib_deserialize(FILE *f);
+Tsp *tsplib_tsp_deserialize(FILE *f);
 
 #endif
