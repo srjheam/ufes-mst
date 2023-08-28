@@ -14,7 +14,14 @@ int main(int argc, char const *argv[])
     FILE *f = fopen(argv[1], "r");
     Tsp *tsp = tsplib_tsp_deserialize(f);
 
+    Mst *mst;
+    Tour *tour;
+    tourlib_generate_travel(tsp, &mst, &tour);
+
     tsplib_tsp_free(tsp);
+
+    tourlib_mst_free(mst);
+    tourlib_tour_free(tour);
 
     return EXIT_SUCCESS;
 }

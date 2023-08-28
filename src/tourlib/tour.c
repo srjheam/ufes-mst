@@ -1,3 +1,5 @@
+#include <stdlib.h>
+
 #include "tourlib/tour.h"
 
 struct Tour
