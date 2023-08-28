@@ -25,6 +25,16 @@ enum EdgeWeightType {
 /// @return 
 Tsp *tsplib_tsp_init(char *name, enum TspType type, int dimension, enum EdgeWeightType edge_weight_type, NodeCoord *node_coords);
 
+char *tsplib_tsp_name(Tsp *tsp);
+
+enum TspType tsplib_tsp_type(Tsp *tsp);
+
+int tsplib_tsp_dimension(Tsp *tsp);
+
+enum EdgeWeightType tsplib_tsp_edge_weight_type(Tsp *tsp);
+
+NodeCoord *tsplib_tsp_node_coords(Tsp *tsp);
+
 void tsplib_tsp_free(Tsp *tsp);
 
 #endif

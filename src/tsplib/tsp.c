@@ -24,6 +24,26 @@ Tsp *tsplib_tsp_init(char *name, enum TspType type, int dimension, enum EdgeWeig
     return tsp;
 }
 
+char *tsplib_tsp_name(Tsp *tsp) {
+    return tsp->name;
+}
+
+enum TspType tsplib_tsp_type(Tsp *tsp) {
+    return tsp->type;
+}
+
+int tsplib_tsp_dimension(Tsp *tsp) {
+    return tsp->dimension;
+}
+
+enum EdgeWeightType tsplib_tsp_edge_weight_type(Tsp *tsp) {
+    return tsp->edge_weight_type;
+}
+
+NodeCoord *tsplib_tsp_node_coords(Tsp *tsp) {
+    return tsp->node_coords;
+}
+
 void tsplib_tsp_free(Tsp *tsp) {
     free(tsp->name);
     
