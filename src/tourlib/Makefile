@@ -12,7 +12,7 @@ INCLUDE = include
 BUILDIR = build
 DEBUGDIR = $(BUILDIR)/debug
 RELEASEDIR = $(BUILDIR)/release
-LIBNAME = mst
+LIBNAME = tour
 LIBTARGET = lib$(LIBNAME).a
 SRCS = $(shell find . -type f -name '*.c' | sed 's|^./||')
 
@@ -21,10 +21,15 @@ SRCS = $(shell find . -type f -name '*.c' | sed 's|^./||')
 OBJSDEBUG = $(patsubst %.c, $(BUILDIR)/debug/%.o, $(notdir $(SRCS)))
 OBJSRELEASE = $(patsubst %.c, $(BUILDIR)/release/%.o, $(notdir $(SRCS)))
 
+LIBTSPDIR       = ../tsplib
+LIBTSP          = tsp
+LIBTSPDIRRELEASE = $(LIBTSPDIR)/build/release
+LIBTSPDIRDEBUG   = $(LIBTSPDIR)/build/debug
+
 # CCompiler - é o compilador usado
 # CFLAGS - são as flags dadas ao compilador durante a compilação
 CC = gcc
-override CFLAGS += -Wall -Wextra -pedantic -I $(INCLUDE) -lm
+override CFLAGS += -Wall -Wextra -pedantic -I $(INCLUDE) -I $(LIBTSPDIR)/include -lm
 
 DEBUGFLAGS = -ggdb3 -O0 -DDEBUG
 RELEASEFLAGS = -O3 -DNDEBUG
@@ -47,10 +52,10 @@ debug: pre-build-debug build-debug
 
 # Compila todos os .o
 $(BUILDIR)/release/%.o : %.c
-	$(CC) -o $@ -c $< $(CFLAGS) $(RELEASEFLAGS)
+	$(CC) -o $@ -c $< -L $(LIBTSPDIRRELEASE) -l$(LIBTSP) $(CFLAGS) $(RELEASEFLAGS)
 
 $(BUILDIR)/debug/%.o : %.c
-	$(CC) -o $@ -c $< $(CFLAGS) $(DEBUGFLAGS)
+	$(CC) -o $@ -c $< -L $(LIBTSPDIRDEBUG) -l$(LIBTSP) $(CFLAGS) $(DEBUGFLAGS)
 
 # Preparativos para o build; Garante que o diretório build/ existe
 pre-build:
@@ -58,9 +63,11 @@ pre-build:
 
 pre-build-release: pre-build
 	mkdir -p $(RELEASEDIR)/
+	$(MAKE) -C $(LIBTSPDIR)/
 
 pre-build-debug: pre-build
 	mkdir -p $(DEBUGDIR)/
+	$(MAKE) -C $(LIBTSPDIR)/ debug
 
 build-release : $(OBJSRELEASE)
 	$(AR) $(ARFLAGS) $(RELEASEDIR)/$(LIBTARGET) $^

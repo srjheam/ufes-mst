@@ -3,8 +3,8 @@
 
 #include <stdio.h>
 
-#include "mstlib/mst.h"
+#include "tourlib/mst.h"
 
-void mstlib_mst_serialize(Mst *mst, FILE *fp);
+void tourlib_mst_serialize(Mst *mst, FILE *fp);
 
 #endif

@@ -4,10 +4,10 @@
 
 # Makefile que percorre toda a biblioteca, procurando os códigos fontes .c para compilar
 
-LIBMSTDIR       = mstlib
-LIBMST          = mst
-LIBMSTDIRRELEASE = $(LIBMSTDIR)/build/release
-LIBMSTDIRDEBUG   = $(LIBMSTDIR)/build/debug
+LIBTOURDIR       = tourlib
+LIBTOUR          = tour
+LIBTOURDIRRELEASE = $(LIBTOURDIR)/build/release
+LIBTOURDIRDEBUG   = $(LIBTOURDIR)/build/debug
 
 LIBTSPDIR       = tsplib
 LIBTSP          = tsp
@@ -23,7 +23,7 @@ RELEASEDIR = $(BUILDIR)/release
 # CCompiler - é o compilador usado
 # CFLAGS - são as flags dadas ao compilador durante a compilação
 CC = gcc
-override CFLAGS += -Wall -Wextra -pedantic -I $(INCLUDE) -lm
+override CFLAGS += -Wall -Wextra -pedantic -I $(INCLUDE) -I $(LIBTSPDIR)/include -I $(LIBTOURDIR)/include -lm
 
 DEBUGFLAGS = -ggdb3 -O0 -DDEBUG
 RELEASEFLAGS = -O3 -DNDEBUG
@@ -44,24 +44,24 @@ pre-build:
 
 pre-build-release: pre-build
 	mkdir -p $(RELEASEDIR)/
-	$(MAKE) -C $(LIBMSTDIR)/
+	$(MAKE) -C $(LIBTOURDIR)/
 	$(MAKE) -C $(LIBTSPDIR)/
 
 pre-build-debug: pre-build
 	mkdir -p $(DEBUGDIR)/
-	$(MAKE) -C $(LIBMSTDIR)/ debug
+	$(MAKE) -C $(LIBTOURDIR)/ debug
 	$(MAKE) -C $(LIBTSPDIR)/ debug
 
 build-release : main.c
-	$(CC) -o $(RELEASEDIR)/$(OUT) $< -L $(LIBMSTDIRRELEASE) -l$(LIBMST) -L $(LIBTSPDIRRELEASE) -l$(LIBTSP) $(CFLAGS) $(RELEASEFLAGS)
+	$(CC) -o $(RELEASEDIR)/$(OUT) $< -L $(LIBTOURDIRRELEASE) -l$(LIBTOUR) -L $(LIBTSPDIRRELEASE) -l$(LIBTSP) $(CFLAGS) $(RELEASEFLAGS)
 
 build-debug : main.c
-	$(CC) -o $(DEBUGDIR)/$(OUT) $< -L $(LIBMSTDIRDEBUG) -l$(LIBMST) -L $(LIBTSPDIRDEBUG) -l$(LIBTSP) $(CFLAGS) $(DEBUGFLAGS)
+	$(CC) -o $(DEBUGDIR)/$(OUT) $< -L $(LIBTOURDIRDEBUG) -l$(LIBTOUR) -L $(LIBTSPDIRDEBUG) -l$(LIBTSP) $(CFLAGS) $(DEBUGFLAGS)
 
 # Rode make clean para remover tudo que é gerado pela build
 clean:
 	rm -rf $(BUILDIR)/ $(VALGRINDOUT)
-	$(MAKE) -C $(LIBMSTDIR)/ clean
+	$(MAKE) -C $(LIBTOURDIR)/ clean
 	$(MAKE) -C $(LIBTSPDIR)/ clean
 
 valgrind: debug
