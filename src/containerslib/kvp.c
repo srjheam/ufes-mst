@@ -1,8 +1,7 @@
 #include <stdlib.h>
 
-#include "exceptions.h"
-
-#include "key_value_pair.h"
+#include "containerslib/exceptions.h"
+#include "containerslib/kvp.h"
 
 struct Kvp {
     void *key;

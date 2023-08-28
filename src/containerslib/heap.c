@@ -1,8 +1,7 @@
-#include <stdio.h>
 #include <string.h>
 
+#include "containerslib/exceptions.h"
 #include "containerslib/heap.h"
-#include "utils.h"
 
 struct Heap {
     byte *data;
@@ -10,7 +9,6 @@ struct Heap {
     size_t capacity;
     size_t len;
     size_t smemb;
-    cmp_fn compar;
     free_fn freer;
     enum HeapType type;
 };
@@ -27,10 +25,8 @@ void __heap_grow(Heap *heap) {
 double __heap_cmp(Heap *heap, double a, double b) { return heap->type == MAX_HEAP ? a - b : b - a; }
 
 void __heap_swap(Heap *map, size_t i, size_t j) {
-    if (i >= map->len || j >= map->len) {
-        perror("__heap_swap - Index out of bounds");
-        exit(EXIT_FAILURE);
-    }
+    if (i >= map->len || j >= map->len)
+        exception_throw_index("heap_swap - Index out of bounds");
 
     byte *tmp = malloc(map->smemb);
     memcpy(tmp, map->data + i * map->smemb, map->smemb);
@@ -173,17 +169,17 @@ Kvp *__heap_pop(Heap *heap) {
     return kvp;
 }
 
-Heap *heap_init(enum HeapType type, size_t initialCapacity, size_t smemb, cmp_fn compar, free_fn freer) {
+Heap *heap_init(enum HeapType type, size_t initialCapacity, size_t smemb, free_fn freer) {
     Heap *heap = malloc(sizeof *heap);
+
+    heap->smemb = smemb;
+    heap->freer = freer;
+    heap->type = type;
 
     heap->capacity = initialCapacity;
     heap->len = 0;
     heap->data = malloc(heap->smemb * heap->capacity);
     heap->priorities = malloc(sizeof(double) * heap->capacity);
-
-    heap->smemb = smemb;
-    heap->compar = compar;
-    heap->freer = freer;
 
     return heap;
 }
@@ -207,7 +203,7 @@ size_t heap_len(Heap *self) {
 void heap_free(Heap *self) {
     if (self->freer)
         for (size_t i = 0; i < self->len; i++)
-            self->freer(self->data[i * self->smemb]);
+            self->freer(((byte **)self->data)[i * self->smemb]);
 
     free(self->data);
     free(self->priorities);

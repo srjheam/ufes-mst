@@ -14,7 +14,7 @@ enum HeapType {
     MAX_HEAP
 };
 
-Heap *heap_init(enum HeapType type, size_t initialCapacity, size_t smemb, cmp_fn compar, free_fn freer);
+Heap *heap_init(enum HeapType type, size_t initialCapacity, size_t smemb, free_fn freer);
 
 void heap_push(Heap *self, void *data, double priority);
 
