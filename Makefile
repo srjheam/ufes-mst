@@ -16,5 +16,5 @@ clean:
 	rm -f valgrind-out.txt
 
 valgrind:
-	$(MAKE) -C src/ valgrind
+	$(MAKE) -C src/ valgrind VALARGS="../$(VALARGS)"
 	cp -f src/valgrind-out.txt ./valgrind-out.txt
