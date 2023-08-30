@@ -4,7 +4,7 @@
 
 ## Sobre
 
-MST foi o trabalho final desenvolvido ao longo da disciplina de Técnicas de Busca e Ordenação, ministrada pelo professor Giovanni.
+MST foi o primeiro trabalho desenvolvido ao longo da disciplina de Técnicas de Busca e Ordenação, ministrada pelo professor Giovanni.
 
 ## Começando
 

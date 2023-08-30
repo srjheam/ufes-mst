@@ -12,7 +12,7 @@ float __tourlib_traveler_distance(NodeCoord u, NodeCoord v) {
 }
 
 int __cmp_edges(const Edge *u, const Edge *v) {
-    return u->distance - v->distance;
+    return u->distance * 1e6 - v->distance * 1e6;
 }
 
 void tourlib_generate_travel(Tsp* tsp, Mst **out_mst, Tour **out_tour) {
@@ -54,7 +54,7 @@ void tourlib_generate_travel(Tsp* tsp, Mst **out_mst, Tour **out_tour) {
 
     // for each (u, v) in G.E ordered by weight(u, v), increasing do
     DisjointSet *ds = disjointset_init(tsplib_tsp_dimension(tsp));
-    for (int i = 0; i < tsplib_tsp_dimension(tsp) * (tsplib_tsp_dimension(tsp) - 1) / 2; i++)
+    for (int i = 0; i < tsplib_tsp_dimension(tsp) * (tsplib_tsp_dimension(tsp) - 1) / 2 && lmst_edges < tsplib_tsp_dimension(tsp) - 1; i++)
     {
         Edge curr = edges[i];
         if (disjointset_find(ds, curr.id_u - 1) != disjointset_find(ds, curr.id_v - 1)) {
