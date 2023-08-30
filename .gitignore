@@ -2,6 +2,9 @@
 giovanni
 
 trab1
+*.tsp
+*.mst
+*.tour
 
 # build n archive artifacts
 build/
