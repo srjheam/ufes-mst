@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <string.h>
 
 #include "tsplib/tsp_serdes.h"
 
@@ -18,6 +19,7 @@ Tsp *tsplib_tsp_deserialize(FILE *f) {
         free(name);
         return NULL;
     }
+    name[strlen(name) - 1] = '\0';
 
     // jump COMMENT line
     if(fscanf(f, "%*[^\n]\n")){};

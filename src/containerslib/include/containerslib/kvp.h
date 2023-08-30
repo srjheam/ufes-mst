@@ -3,6 +3,11 @@
 
 typedef struct Kvp Kvp;
 
+struct Kvp {
+    void *key;
+    void *value;
+};
+
 Kvp *kvp_init(void *key, void *value);
 
 void *kvp_key(Kvp *kvp);

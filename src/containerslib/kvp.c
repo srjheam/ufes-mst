@@ -3,11 +3,6 @@
 #include "containerslib/exceptions.h"
 #include "containerslib/kvp.h"
 
-struct Kvp {
-    void *key;
-    void *value;
-};
-
 Kvp *kvp_init(void *key, void *value) {
     Kvp *kvp = malloc(sizeof(Kvp));
     if (kvp == NULL)
