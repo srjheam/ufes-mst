@@ -82,11 +82,10 @@ def read_tsp_data(tsp_file):
 
     return data
 
-def plot_cities(data):
-    plt.title(data[name_key])
-    plt.xticks([])
-    plt.yticks([])
-    plt.scatter(*zip(*data[coord_key]), zorder=3, s=8, c='black')
+def plot_cities(data, axis):
+    axis.set_xticks([])
+    axis.set_yticks([])
+    axis.scatter(*zip(*data[coord_key]), zorder=3, s=8, c='black')
     F = plt.gcf()
     Size = F.get_size_inches()
     F.set_size_inches(Size[0]*1.5, Size[1]*1.5, forward=True)
@@ -102,12 +101,12 @@ def read_tour(tour_file, data):
     tour.append(tour[0])
     return tour
 
-def plot_tour(tour, data):
+def plot_tour(tour, data, axis):
     points = list()
     cities = data[coord_key]
     for point in tour:
         points.append(cities[point-1])
-    plt.plot(*zip(*points), c='red', alpha=1)
+    axis.plot(*zip(*points), c='red', alpha=1)
     l = 0
     xsrc, ysrc = points[0]
     for xtgt, ytgt in points[1:]:
@@ -117,7 +116,9 @@ def plot_tour(tour, data):
         l += math.sqrt(xd*xd + yd*yd) ###
         xsrc = xtgt
         ysrc = ytgt
-    print("TOUR LEN: ", l)
+
+    axis.set_xlabel(axis.get_xlabel() + f'TOUR LEN: {l}')
+    return l
 
 def read_mst(mst_file, data):
     f = open(mst_file)
@@ -132,7 +133,7 @@ def read_mst(mst_file, data):
         mst.append((int(src), int(tgt)))
     return mst
 
-def plot_mst(mst, data):
+def plot_mst(mst, data, axis):
     w = 0
     cities = data[coord_key]
     for src, tgt in mst:
@@ -142,8 +143,10 @@ def plot_mst(mst, data):
         yd = ysrc - ytgt
         #print(xd, yd) ###
         w += math.sqrt(xd*xd + yd*yd) ###
-        plt.plot([xsrc, xtgt], [ysrc, ytgt], linewidth=4, c='cyan', alpha=.75)
-    print("MST WEIGHT: ", w)
+        axis.plot([xsrc, xtgt], [ysrc, ytgt], linewidth=4, c='cyan', alpha=.75)
+
+    axis.set_xlabel(f'MST WEIGHT: {w}')
+    return w
 
 def produce_final(tsp_file, mst_file, tour_file):
     data = read_tsp_data(tsp_file)
@@ -156,6 +159,40 @@ def produce_final(tsp_file, mst_file, tour_file):
         plot_tour(tour, data)
     plot_cities(data)
     plt.show()
+
+def produce_diff(tsp_file, base_mst_file, test_mst_file, base_tour_file, test_tour_file, percent_delta):
+    data = read_tsp_data(tsp_file)
+    plt.clf()
+    fig, (ax1, ax2) = plt.subplots(nrows=1, ncols=2, figsize=(4, 2))
+
+    mst_pass, tour_pass = base_mst_file == '', base_tour_file == ''
+    if (base_mst_file != ''):
+        base_mst = read_mst(base_mst_file, data)
+        test_mst = read_mst(test_mst_file, data)
+        bw = plot_mst(base_mst, data, ax1)
+        tw = plot_mst(test_mst, data, ax2)
+        if (abs(bw - tw) < bw * percent_delta):
+            mst_pass = True
+    if (base_tour_file != ''):
+        base_tour = read_tour(base_tour_file, data)
+        test_tour = read_tour(test_tour_file, data)
+        bl = plot_tour(base_tour, data, ax1)
+        tl = plot_tour(test_tour, data, ax2)
+        if (abs(bl - tl) < bl * percent_delta):
+            tour_pass = True
+
+    ax1.set_title('BASE')
+    ax2.set_title('TEST')
+
+    plot_cities(data, ax1)
+    plot_cities(data, ax2)
+
+    plt.suptitle((f'MST {"PASS" if mst_pass else "FAILED"}' if base_mst_file != '' else '' ) + (f' TOUR: {"PASS" if tour_pass else "FAILED"}' if base_tour_file != '' else ''))
+
+    plt.tight_layout()
+    plt.show()
+
+    return not mst_pass or not tour_pass
 
 if __name__ == '__main__':
     if len(sys.argv) < 2:
