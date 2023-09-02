@@ -151,13 +151,15 @@ def plot_mst(mst, data, axis):
 def produce_final(tsp_file, mst_file, tour_file):
     data = read_tsp_data(tsp_file)
     plt.clf()
+
+    fig, (ax1) = plt.subplots(nrows=1, ncols=1, figsize=(4, 2))
     if (mst_file != ''):
         mst = read_mst(mst_file, data)
-        plot_mst(mst, data)
+        plot_mst(mst, data, ax1)
     if (tour_file != ''):
         tour = read_tour(tour_file, data)
-        plot_tour(tour, data)
-    plot_cities(data)
+        plot_tour(tour, data, ax1)
+    plot_cities(data, ax1)
     plt.show()
 
 def produce_diff(tsp_file, base_mst_file, test_mst_file, base_tour_file, test_tour_file, percent_delta):
