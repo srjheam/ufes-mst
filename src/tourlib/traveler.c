@@ -1,5 +1,6 @@
 #include <string.h>
 #include <math.h>
+#include <float.h>
 
 #include "tourlib/traveler.h"
 
@@ -12,7 +13,13 @@ float __tourlib_traveler_distance(NodeCoord u, NodeCoord v) {
 }
 
 int __cmp_edges(const Edge *u, const Edge *v) {
-    return u->distance * 1e6 - v->distance * 1e6;
+    // https://stackoverflow.com/a/17341
+    // https://stackoverflow.com/a/65015333
+    return fabs(u->distance - v->distance) < FLT_EPSILON
+        ? 0
+        : u->distance > v->distance + FLT_EPSILON
+            ? 1
+            : -1;
 }
 
 void tourlib_generate_travel(Tsp* tsp, Mst **out_mst, Tour **out_tour) {
