@@ -20,8 +20,17 @@ int main(int argc, char const *argv[])
 
     Mst *mst;
     Tour *tour;
-    tourlib_generate_travel(tsp, &mst, &tour);
 
+    #ifdef BENCHMARK
+    #include <time.h>
+    clock_t start_time = clock();
+    #endif
+
+    tourlib_generate_travel(tsp, &mst, &tour);
+  
+    #ifdef BENCHMARK
+    printf("%lf\n", (double)(clock() - start_time) / CLOCKS_PER_SEC);
+    #endif
 
     char *mst_file = malloc(strlen(tsplib_tsp_name(tsp)) + 5);
     strcpy(mst_file, tsplib_tsp_name(tsp));

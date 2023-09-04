@@ -4,7 +4,9 @@
 typedef struct {
     int id_u;
     int id_v;
+    #ifndef EX_HEAP
     float distance;
+    #endif
 } Edge;
 
 #endif

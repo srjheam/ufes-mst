@@ -29,3 +29,15 @@ Melhoramos o Jupyter Notebook para facilitar os testes e os benchmarks no futuro
 Encontramos algumas respostas no Stack Overflow falando sobre como otimizar o algoritmo sobre um grafo completo.
 
 O plano é fazer algumas versões usando métodos e estruturas diferentes. Todas as versões seriam testáveis graças ao uso de diretivas de compilação.
+
+### [03/09/2023]
+
+Pesquisando mais sobre formas mais baratas de ordenar as arestas, trombamos com técnicas de distance‐preserving dimensionality reduction, em especial a Z-order curve.
+
+Com isso poderia ser possível ordenar apenas os vértices, aumentando muito o desempenho com um pequeno custo de precisão.
+
+Por enquanto essa ideia foi engavetada porque a Z-order curve exige o cálculo sobre numeros inteiros. Fazer a normalização dos pontos poderia não valer a pena/não funcionar.
+
+Também, escrevemos um script, tsp_random, para gerar arquivos tsp aleatóriamente com o potencial de nos auxiliar no futuro com mais testes. Um detalhe é que os pontos são distribuídos aleatóriamente sobre a figura de um quadrado e gostaríamos de saber alguma técnica para definir a forma de um polígono, ou construir ilhas de pontos.
+
+Automatizamos o benchmarking e testamos duas implementações do algoritmo: uma com heap e outra com array padrão. A solução com o heap se mostrou, empíricamente, cerca de 2.5x mais rápida com o preço de ocupar quase o dobro do espaço e fazer um número atronomicamente maior de allocs.

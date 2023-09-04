@@ -131,33 +131,26 @@ void __heap_push(Heap *heap, byte *data, double priority) {
     __heap_heapify_up(heap, heap->len - 1);
 }
 
-Kvp *__heap_peek(Heap *heap) {
+double __heap_peek(Heap *heap, byte *out) {
     if (heap->len == 0)
-        return NULL;
+        exception_throw_failure("heap_peek - Heap is empty");
 
-    byte *data = malloc(heap->smemb);
-    memcpy(data, heap->data, heap->smemb);
+    memcpy(out, heap->data, heap->smemb);
 
-    Kvp *kvp = kvp_init(heap->priorities, data);
-
-    return kvp;
+    return heap->priorities[0];
 }
 
-Kvp *__heap_pop(Heap *heap) {
+double __heap_pop(Heap *heap, byte *out) {
     if (heap->len == 0)
-        return NULL;
+        exception_throw_failure("heap_pop - Heap is empty");
 
-    double *priority = malloc(sizeof(double));
-    *priority = heap->priorities[0];
+    double spriority = heap->priorities[0];
 
-    byte *data = malloc(heap->smemb);
-    memcpy(data, heap->data, heap->smemb);
-
-    Kvp *kvp = kvp_init(priority, data);
+    memcpy(out, heap->data, heap->smemb);
 
     if (heap->len == 1) {
         heap->len--;
-        return kvp;
+        return spriority;
     }
 
     // place the last element in the root
@@ -166,7 +159,7 @@ Kvp *__heap_pop(Heap *heap) {
 
     __heap_heapify_down(heap);
 
-    return kvp;
+    return spriority;
 }
 
 Heap *heap_init(enum HeapType type, size_t initialCapacity, size_t smemb, free_fn freer) {
@@ -188,12 +181,12 @@ void heap_push(Heap *self, void *data, double priority) {
     __heap_push(self, data, priority);
 }
 
-Kvp *heap_pop(Heap *self) {
-    return __heap_pop(self);
+double heap_pop(Heap *self, void *out) {
+    return __heap_pop(self, out);
 }
 
-Kvp *heap_peek(Heap *self) {
-    return __heap_peek(self);
+double heap_peek(Heap *self, void *out) {
+    return __heap_peek(self, out);
 }
 
 size_t heap_len(Heap *self) {

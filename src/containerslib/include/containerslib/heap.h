@@ -5,7 +5,6 @@
 #include <stdbool.h>
 
 #include "containerslib/types.h"
-#include "containerslib/kvp.h"
 
 typedef struct Heap Heap;
 
@@ -18,9 +17,9 @@ Heap *heap_init(enum HeapType type, size_t initialCapacity, size_t smemb, free_f
 
 void heap_push(Heap *self, void *data, double priority);
 
-Kvp *heap_pop(Heap *self);
+double heap_pop(Heap *self, void *out);
 
-Kvp *heap_peek(Heap *self);
+double heap_peek(Heap *self, void *out);
 
 size_t heap_len(Heap *self);
 
