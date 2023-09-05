@@ -14,7 +14,7 @@ struct Heap {
 };
 
 void __heap_grow(Heap *heap) {
-    if (heap->len == heap->capacity) {
+    if (heap->len + 1 == heap->capacity) {
         heap->capacity <<= 1;
         heap->data = realloc(heap->data, heap->smemb * heap->capacity);
         heap->priorities =
@@ -25,18 +25,16 @@ void __heap_grow(Heap *heap) {
 double __heap_cmp(Heap *heap, double a, double b) { return heap->type == MAX_HEAP ? a - b : b - a; }
 
 void __heap_swap(Heap *map, size_t i, size_t j) {
-    if (i >= map->len || j >= map->len)
+    if (i > map->len || j > map->len)
         exception_throw_index("heap_swap - Index out of bounds");
 
-    byte *tmp = malloc(map->smemb);
-    memcpy(tmp, map->data + i * map->smemb, map->smemb);
+    memcpy(map->data, map->data + i * map->smemb, map->smemb);
     memcpy(map->data + i * map->smemb, map->data + j * map->smemb, map->smemb);
-    memcpy(map->data + j * map->smemb, tmp, map->smemb);
-    free(tmp);
+    memcpy(map->data + j * map->smemb, map->data, map->smemb);
 
-    double tmp2 = map->priorities[i];
+    map->priorities[0] = map->priorities[i];
     map->priorities[i] = map->priorities[j];
-    map->priorities[j] = tmp2;
+    map->priorities[j] = map->priorities[0];
 }
 
 /**
@@ -50,11 +48,11 @@ void __heap_swap(Heap *map, size_t i, size_t j) {
  * @return double
  */
 double __heap_heapify_high(Heap *heap, size_t i) {
-    size_t lindx = 2 * i + 1;
-    size_t rindx = 2 * i + 2;
+    size_t lindx = 2 * i;
+    size_t rindx = 2 * i + 1;
 
     // I love Linux file permissions.
-    int bits = 0b01 * (lindx >= heap->len) + 0b10 * (rindx >= heap->len);
+    int bits = 0b01 * (lindx > heap->len) + 0b10 * (rindx > heap->len);
     switch (bits) {
     case 0b01:;
         double rdiff =
@@ -96,24 +94,24 @@ void __heap_heapify_up(Heap *heap, size_t i) {
     if (heap->len == 1 || i == 0)
         return;
 
-    size_t icurr = ((i + 1) >> 1) - 1;
+    size_t icurr = i >> 1;
     while (__heap_heapify_high(heap, icurr)) {
         size_t ichild =
-            2 * icurr + (__heap_heapify_high(heap, icurr) < 0 ? 1 : 2);
+            2 * icurr + (__heap_heapify_high(heap, icurr) < 0 ? 0 : 1);
 
         __heap_swap(heap, icurr, ichild);
 
-        if (icurr == 0)
+        if (icurr == 1)
             break;
-        icurr = ((icurr + 1) >> 1) - 1;
+        icurr >>= 1;
     }
 }
 
 void __heap_heapify_down(Heap *heap) {
-    size_t icurr = 0;
+    size_t icurr = 1;
     while (__heap_heapify_high(heap, icurr)) {
         size_t ichild =
-            2 * icurr + (__heap_heapify_high(heap, icurr) < 0 ? 1 : 2);
+            2 * icurr + (__heap_heapify_high(heap, icurr) < 0 ? 0 : 1);
 
         __heap_swap(heap, icurr, ichild);
 
@@ -124,29 +122,29 @@ void __heap_heapify_down(Heap *heap) {
 void __heap_push(Heap *heap, byte *data, double priority) {
     __heap_grow(heap);
 
-    heap->priorities[heap->len] = priority;
-    memcpy(heap->data + heap->len * heap->smemb, data, heap->smemb);
+    heap->priorities[heap->len + 1] = priority;
+    memcpy(heap->data + (heap->len + 1) * heap->smemb, data, heap->smemb);
     heap->len++;
 
-    __heap_heapify_up(heap, heap->len - 1);
+    __heap_heapify_up(heap, heap->len);
 }
 
 double __heap_peek(Heap *heap, byte *out) {
     if (heap->len == 0)
         exception_throw_failure("heap_peek - Heap is empty");
 
-    memcpy(out, heap->data, heap->smemb);
+    memcpy(out, heap->data + heap->smemb, heap->smemb);
 
-    return heap->priorities[0];
+    return heap->priorities[1];
 }
 
 double __heap_pop(Heap *heap, byte *out) {
     if (heap->len == 0)
         exception_throw_failure("heap_pop - Heap is empty");
 
-    double spriority = heap->priorities[0];
+    double spriority = heap->priorities[1];
 
-    memcpy(out, heap->data, heap->smemb);
+    memcpy(out, heap->data + heap->smemb, heap->smemb);
 
     if (heap->len == 1) {
         heap->len--;
@@ -154,7 +152,7 @@ double __heap_pop(Heap *heap, byte *out) {
     }
 
     // place the last element in the root
-    __heap_swap(heap, 0, heap->len - 1);
+    __heap_swap(heap, 1, heap->len);
     heap->len--;
 
     __heap_heapify_down(heap);
@@ -169,7 +167,7 @@ Heap *heap_init(enum HeapType type, size_t initialCapacity, size_t smemb, free_f
     heap->freer = freer;
     heap->type = type;
 
-    heap->capacity = initialCapacity;
+    heap->capacity = initialCapacity + 1;
     heap->len = 0;
     heap->data = malloc(heap->smemb * heap->capacity);
     heap->priorities = malloc(sizeof(double) * heap->capacity);
@@ -195,7 +193,7 @@ size_t heap_len(Heap *self) {
 
 void heap_free(Heap *self) {
     if (self->freer)
-        for (size_t i = 0; i < self->len; i++)
+        for (size_t i = 1; i <= self->len; i++)
             self->freer(((byte **)self->data)[i * self->smemb]);
 
     free(self->data);

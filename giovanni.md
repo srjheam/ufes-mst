@@ -41,3 +41,7 @@ Por enquanto essa ideia foi engavetada porque a Z-order curve exige o cálculo s
 Também, escrevemos um script, tsp_random, para gerar arquivos tsp aleatóriamente com o potencial de nos auxiliar no futuro com mais testes. Um detalhe é que os pontos são distribuídos aleatóriamente sobre a figura de um quadrado e gostaríamos de saber alguma técnica para definir a forma de um polígono, ou construir ilhas de pontos.
 
 Automatizamos o benchmarking e testamos duas implementações do algoritmo: uma com heap e outra com array padrão. A solução com o heap se mostrou, empíricamente, cerca de 2.5x mais rápida com o preço de ocupar quase o dobro do espaço e fazer um número atronomicamente maior de allocs.
+
+### [04/09/2023]
+
+Aprimoramos o heap o colocando em base 1 e dispondo do seu indice zero como um espaço de variável temporária. Isso extinguiu milhões de allocs e revelou que ele consome menos memória que a solução com qsort. Imbatível!

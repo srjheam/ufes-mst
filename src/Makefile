@@ -71,6 +71,7 @@ clean:
 	$(MAKE) -C $(LIBTOURDIR)/ clean
 	$(MAKE) -C $(LIBTSPDIR)/ clean
 	$(MAKE) -C $(LIBCONTAINERSDIR)/ clean
+	rm -f *.mst *.tsp *.tour
 
 valgrind: debug
 	rm -f $(VALGRINDOUT)
