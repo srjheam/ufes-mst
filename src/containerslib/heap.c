@@ -5,7 +5,7 @@
 
 struct Heap {
     byte *data;
-    double *priorities;
+    float *priorities;
     size_t capacity;
     size_t len;
     size_t smemb;
@@ -18,11 +18,11 @@ void __heap_grow(Heap *heap) {
         heap->capacity <<= 1;
         heap->data = realloc(heap->data, heap->smemb * heap->capacity);
         heap->priorities =
-            realloc(heap->priorities, sizeof(double) * heap->capacity);
+            realloc(heap->priorities, sizeof(float) * heap->capacity);
     }
 }
 
-double __heap_cmp(Heap *heap, double a, double b) { return heap->type == MAX_HEAP ? a - b : b - a; }
+float __heap_cmp(Heap *heap, float a, float b) { return heap->type == MAX_HEAP ? a - b : b - a; }
 
 void __heap_swap(Heap *map, size_t i, size_t j) {
     if (i > map->len || j > map->len)
@@ -45,9 +45,9 @@ void __heap_swap(Heap *map, size_t i, size_t j) {
  *
  * @param heap The heap.
  * @param i The index of the parent.
- * @return double
+ * @return float
  */
-double __heap_heapify_high(Heap *heap, size_t i) {
+float __heap_heapify_high(Heap *heap, size_t i) {
     size_t lindx = 2 * i;
     size_t rindx = 2 * i + 1;
 
@@ -55,12 +55,12 @@ double __heap_heapify_high(Heap *heap, size_t i) {
     int bits = 0b01 * (lindx > heap->len) + 0b10 * (rindx > heap->len);
     switch (bits) {
     case 0b01:;
-        double rdiff =
+        float rdiff =
             __heap_cmp(heap, heap->priorities[rindx], heap->priorities[i]);
         return rdiff > 0 ? rdiff : 0;
 
     case 0b10:;
-        double ldiff =
+        float ldiff =
             __heap_cmp(heap, heap->priorities[lindx], heap->priorities[i]);
         return ldiff > 0 ? ldiff * -1 : 0;
 
@@ -68,12 +68,12 @@ double __heap_heapify_high(Heap *heap, size_t i) {
         return 0;
     }
 
-    double pp = heap->priorities[i];
-    double pl = heap->priorities[lindx];
-    double pr = heap->priorities[rindx];
+    float pp = heap->priorities[i];
+    float pl = heap->priorities[lindx];
+    float pr = heap->priorities[rindx];
 
-    double ldiff = __heap_cmp(heap, pl, pp);
-    double rdiff = __heap_cmp(heap, pr, pp);
+    float ldiff = __heap_cmp(heap, pl, pp);
+    float rdiff = __heap_cmp(heap, pr, pp);
 
     int bits2 = 0b01 * (ldiff <= 0) + 0b10 * (rdiff <= 0);
     switch (bits2) {
@@ -119,7 +119,7 @@ void __heap_heapify_down(Heap *heap) {
     }
 }
 
-void __heap_push(Heap *heap, byte *data, double priority) {
+void __heap_push(Heap *heap, byte *data, float priority) {
     __heap_grow(heap);
 
     heap->priorities[heap->len + 1] = priority;
@@ -129,7 +129,7 @@ void __heap_push(Heap *heap, byte *data, double priority) {
     __heap_heapify_up(heap, heap->len);
 }
 
-double __heap_peek(Heap *heap, byte *out) {
+float __heap_peek(Heap *heap, byte *out) {
     if (heap->len == 0)
         exception_throw_failure("heap_peek - Heap is empty");
 
@@ -138,11 +138,11 @@ double __heap_peek(Heap *heap, byte *out) {
     return heap->priorities[1];
 }
 
-double __heap_pop(Heap *heap, byte *out) {
+float __heap_pop(Heap *heap, byte *out) {
     if (heap->len == 0)
         exception_throw_failure("heap_pop - Heap is empty");
 
-    double spriority = heap->priorities[1];
+    float spriority = heap->priorities[1];
 
     memcpy(out, heap->data + heap->smemb, heap->smemb);
 
@@ -170,20 +170,20 @@ Heap *heap_init(enum HeapType type, size_t initialCapacity, size_t smemb, free_f
     heap->capacity = initialCapacity + 1;
     heap->len = 0;
     heap->data = malloc(heap->smemb * heap->capacity);
-    heap->priorities = malloc(sizeof(double) * heap->capacity);
+    heap->priorities = malloc(sizeof(float) * heap->capacity);
 
     return heap;
 }
 
-void heap_push(Heap *self, void *data, double priority) {
+void heap_push(Heap *self, void *data, float priority) {
     __heap_push(self, data, priority);
 }
 
-double heap_pop(Heap *self, void *out) {
+float heap_pop(Heap *self, void *out) {
     return __heap_pop(self, out);
 }
 
-double heap_peek(Heap *self, void *out) {
+float heap_peek(Heap *self, void *out) {
     return __heap_peek(self, out);
 }
 

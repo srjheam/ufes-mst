@@ -15,11 +15,11 @@ enum HeapType {
 
 Heap *heap_init(enum HeapType type, size_t initialCapacity, size_t smemb, free_fn freer);
 
-void heap_push(Heap *self, void *data, double priority);
+void heap_push(Heap *self, void *data, float priority);
 
-double heap_pop(Heap *self, void *out);
+float heap_pop(Heap *self, void *out);
 
-double heap_peek(Heap *self, void *out);
+float heap_peek(Heap *self, void *out);
 
 size_t heap_len(Heap *self);
 
