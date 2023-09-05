@@ -45,3 +45,6 @@ Automatizamos o benchmarking e testamos duas implementações do algoritmo: uma 
 ### [04/09/2023]
 
 Aprimoramos o heap o colocando em base 1 e dispondo do seu indice zero como um espaço de variável temporária. Isso extinguiu milhões de allocs e revelou que ele consome menos memória que a solução com qsort. Imbatível!
+
+Começamos a desenvolver um método automático de benchmarking para o programa.
+

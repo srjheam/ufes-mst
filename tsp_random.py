@@ -50,6 +50,11 @@ def generate_tsp(dimension, tsp_directory):
 
     return tsp
 
+def random_tsp(dimension, tsp_directory):
+    tsp = generate_tsp(dimension, tsp_directory)
+    write_tsp(tsp_directory, tsp[name_key], tsp[com_key], tsp[type_key], tsp[dim_key], tsp[edge_key], tsp[coord_key])
+    return tsp
+
 if __name__ == '__main__':
     if len(sys.argv) < 2:
         print('Usage: ./tsp_random.py [dimension] <tsp_directory>')
@@ -61,8 +66,6 @@ if __name__ == '__main__':
     if len(sys.argv) > 2:
         tsp_directory = sys.argv[2]
 
-    tsp = generate_tsp(dimension, tsp_directory)
-
-    write_tsp(tsp_directory, tsp[name_key], tsp[com_key], tsp[type_key], tsp[dim_key], tsp[edge_key], tsp[coord_key])
+    tsp = random_tsp(dimension, tsp_directory)
 
     print(f'Head to {tsp_directory}/{tsp[name_key]}.tsp')
