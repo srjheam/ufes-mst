@@ -26,7 +26,7 @@ def write_tsp(tsp_directory, name, comment, type, dimension, edge_weight_type, n
     f.write(f'EDGE_WEIGHT_TYPE: {edge_weight_type}\n')
     f.write(f'NODE_COORD_SECTION\n')
     for node_coord in node_coords:
-        f.write(f'{node_coord[0]} {node_coord[1]} {node_coord[2]}\n')
+        f.write(f'{node_coord[0]} {node_coord[1]:.2f} {node_coord[2]:.2f}\n')
     f.write(f'EOF\n')
     f.close()
 
