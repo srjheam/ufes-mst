@@ -2,6 +2,7 @@
 #include <math.h>
 #include <float.h>
 
+#include "tourlib/tour.h"
 #include "tourlib/traveler.h"
 
 #include "containerslib/heap.h"
@@ -62,7 +63,9 @@ void tourlib_generate_travel(Tsp* tsp, Mst **out_mst, Tour **out_tour) {
     #endif
 
     int lmst_edges = 0;
-    Edge *mst_edges = malloc(sizeof(Edge) * (dimension - 1));
+    // Edge *mst_edges = malloc(sizeof(Edge) * (dimension - 1));
+
+    *out_mst = tourlib_mst_init(strdup(tsplib_tsp_name(tsp)), dimension);
 
     // for each (u, v) in G.E ordered by weight(u, v), increasing do
     DisjointSet *ds = disjointset_init(dimension);
@@ -79,8 +82,10 @@ void tourlib_generate_travel(Tsp* tsp, Mst **out_mst, Tour **out_tour) {
             // F:= F ∪ {(u, v)}
             // UNION(u, v)
             disjointset_union(ds, curr.id_u - 1, curr.id_v - 1);
+            tourlib_mst_add_edge(*out_mst, curr);
 
-            mst_edges[lmst_edges++] = curr;
+            // mst_edges[lmst_edges++] = curr;
+            lmst_edges++;
         }
     }
     disjointset_free(ds);
@@ -91,6 +96,6 @@ void tourlib_generate_travel(Tsp* tsp, Mst **out_mst, Tour **out_tour) {
     free(edges);
     #endif
 
-    *out_mst = tourlib_mst_init(strdup(tsplib_tsp_name(tsp)), dimension, mst_edges);
+    // *out_mst = tourlib_mst_init(strdup(tsplib_tsp_name(tsp)), dimension, mst_edges);
     *out_tour = tourlib_tour_init(strdup(tsplib_tsp_name(tsp)), dimension, 0);
 }
