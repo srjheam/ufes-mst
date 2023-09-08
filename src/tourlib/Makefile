@@ -34,7 +34,7 @@ LIBCONTAINERSDIRDEBUG   = $(LIBTSPDIR)/build/debug
 # CCompiler - é o compilador usado
 # CFLAGS - são as flags dadas ao compilador durante a compilação
 CC = gcc
-override CFLAGS += -Wall -Wextra -I $(INCLUDE) -I $(LIBTSPDIR)/include -I $(LIBCONTAINERSDIR)/include -lm
+override CFLAGS += -Wall -Wextra -g -I $(INCLUDE) -I $(LIBTSPDIR)/include -I $(LIBCONTAINERSDIR)/include -lm
 
 DEBUGFLAGS = -ggdb3 -O0 -DDEBUG
 RELEASEFLAGS = -O3 -DNDEBUG
