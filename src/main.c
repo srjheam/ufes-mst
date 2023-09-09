@@ -37,7 +37,7 @@ int main(int argc, char const *argv[])
     strcat(mst_file, ".mst");
 
     FILE *f_mst = fopen(mst_file, "w");
-    // tourlib_mst_serialize(mst, f_mst);
+    tourlib_mst_serialize(mst, f_mst);
     fclose(f_mst);
 
     free(mst_file);
