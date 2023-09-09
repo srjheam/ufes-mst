@@ -33,8 +33,8 @@ Mst *tourlib_mst_init(char *name, int dimension) {
 }
 
 void tourlib_mst_add_edge(Mst *mst, Edge edge) {
-    printf("%d ", edge.id_u);
-    printf("%d\n", edge.id_v);
+    // printf("%d ", edge.id_u);
+    // printf("%d\n", edge.id_v);
     linked_list_insert(mst->adjacency_list[edge.id_u], edge.id_v);
     linked_list_insert(mst->adjacency_list[edge.id_v], edge.id_u);
 }
@@ -47,8 +47,9 @@ int tourlib_mst_dimension(Mst *mst) {
     return mst->dimension;
 }
 
-Edge *tourlib_mst_edges(Mst *mst) {
+LinkedList **tourlib_mst_edges(Mst *mst) {
     // return mst->edges;
+    return mst->adjacency_list;
 }
 
 void tourlib_mst_free(Mst *mst) {
@@ -63,4 +64,11 @@ void tourlib_mst_free(Mst *mst) {
     free(mst->adjacency_list);
 
     free(mst);
+}
+
+void tourlib_mst_print(Mst *mst) {
+    for(int i = 0; i < mst->dimension + 1; i++) {
+        printf("%d: ", i);
+        linked_list_print(mst->adjacency_list[i]);
+    }
 }
