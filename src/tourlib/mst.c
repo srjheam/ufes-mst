@@ -25,18 +25,18 @@ Mst *tourlib_mst_init(char *name, int dimension) {
     
     mst->adjacency_list = malloc(sizeof(LinkedList *) * (dimension + 1));
 
-    for(int i = 0; i < dimension + 1; i++) {
+    for(int i = 1; i < dimension + 1; i++) {
         mst->adjacency_list[i] = linked_list_init();
     }
 
     return mst;
 }
 
-void tourlib_mst_add_edge(Mst *mst, Edge edge) {
+void tourlib_mst_add_edge(Mst *mst, int id_u, int id_v) {
     // printf("%d ", edge.id_u);
     // printf("%d\n", edge.id_v);
-    linked_list_insert(mst->adjacency_list[edge.id_u], edge.id_v);
-    linked_list_insert(mst->adjacency_list[edge.id_v], edge.id_u);
+    linked_list_insert(mst->adjacency_list[id_u], id_v);
+    linked_list_insert(mst->adjacency_list[id_v], id_u);
 }
 
 char *tourlib_mst_name(Mst *mst) {
@@ -57,7 +57,7 @@ void tourlib_mst_free(Mst *mst) {
 
     // free(mst->edges);
 
-    for(int i = 0; i < mst->dimension + 1; i++) {
+    for(int i = 1; i < mst->dimension + 1; i++) {
         linked_list_free(mst->adjacency_list[i]);
     }
 
@@ -67,7 +67,7 @@ void tourlib_mst_free(Mst *mst) {
 }
 
 void tourlib_mst_print(Mst *mst) {
-    for(int i = 0; i < mst->dimension + 1; i++) {
+    for(int i = 1; i < mst->dimension + 1; i++) {
         printf("%d: ", i);
         linked_list_print(mst->adjacency_list[i]);
     }

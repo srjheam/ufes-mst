@@ -83,7 +83,7 @@ void tourlib_generate_travel(Tsp* tsp, Mst **out_mst, Tour **out_tour) {
             // F:= F ∪ {(u, v)}
             // UNION(u, v)
             disjointset_union(ds, curr.id_u - 1, curr.id_v - 1);
-            tourlib_mst_add_edge(*out_mst, curr);
+            tourlib_mst_add_edge(*out_mst, curr.id_u, curr.id_v);
 
             // mst_edges[lmst_edges++] = curr;
             lmst_edges++;
@@ -97,7 +97,7 @@ void tourlib_generate_travel(Tsp* tsp, Mst **out_mst, Tour **out_tour) {
     free(edges);
     #endif
 
-    tourlib_mst_print(*out_mst);
+    // tourlib_mst_print(*out_mst);
 
     // *out_mst = tourlib_mst_init(strdup(tsplib_tsp_name(tsp)), dimension, mst_edges);
     *out_tour = tourlib_tour_init(strdup(tsplib_tsp_name(tsp)), dimension, 0);

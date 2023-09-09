@@ -8,7 +8,7 @@ void tourlib_mst_serialize(Mst *mst, FILE *f) {
     fprintf(f, "MST_SECTION\n");
 
     LinkedList **edges = tourlib_mst_edges(mst);
-    for (int i = 0; i < tourlib_mst_dimension(mst) + 1; i++) {
+    for (int i = 1; i < tourlib_mst_dimension(mst) + 1; i++) {
         // fprintf(f, "%d %d\n", edges[i].id_u, edges[i].id_v);
         ListIterator *it = list_iterator_init(edges[i]);
         while(!list_iterator_is_over(it)) {
