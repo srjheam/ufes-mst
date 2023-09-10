@@ -5,6 +5,6 @@
 
 #include "tourlib/tour.h"
 
-void tourlib_tour_serialize(Tour *mst, FILE *f);
+void tourlib_tour_serialize(Tour *tour, FILE *f);
 
 #endif

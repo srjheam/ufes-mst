@@ -100,5 +100,7 @@ void tourlib_generate_travel(Tsp* tsp, Mst **out_mst, Tour **out_tour) {
     // tourlib_mst_print(*out_mst);
 
     // *out_mst = tourlib_mst_init(strdup(tsplib_tsp_name(tsp)), dimension, mst_edges);
-    *out_tour = tourlib_tour_init(strdup(tsplib_tsp_name(tsp)), dimension, 0);
+    *out_tour = tourlib_tour_init(strdup(tsplib_tsp_name(tsp)), dimension);
+
+    tourlib_tour_path(*out_tour, tourlib_mst_edges(*out_mst));
 }

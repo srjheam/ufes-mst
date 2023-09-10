@@ -1,12 +1,13 @@
 #include "tourlib/tour_serdes.h"
 
-void tourlib_tour_serialize(Tour *mst, FILE *f) {
-    fprintf(f, "NAME: %s\n", tourlib_tour_name(mst));
+void tourlib_tour_serialize(Tour *tour, FILE *f) {
+    fprintf(f, "NAME: %s\n", tourlib_tour_name(tour));
     fprintf(f, "TYPE: TOUR\n");
-    fprintf(f, "DIMENSION: %d\n", tourlib_tour_dimension(mst));
+    fprintf(f, "DIMENSION: %d\n", tourlib_tour_dimension(tour));
     fprintf(f, "TOUR_SECTION\n");
-    int *vertexes = tourlib_tour_vertexes(mst);
-    for (int i = 0; i < tourlib_tour_dimension(mst); i++) {
+
+    int *vertexes = tourlib_tour_vertexes(tour);
+    for (int i = 1; i < tourlib_tour_dimension(tour) + 1; i++) {
         fprintf(f, "%d\n", vertexes[i]);
     }
     fprintf(f, "EOF\n");
