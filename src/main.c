@@ -47,7 +47,7 @@ int main(int argc, char const *argv[])
     strcat(tour_file, ".tour");
 
     FILE *f_tour = fopen(tour_file, "w");
-    //tourlib_tour_serialize(tour, f_tour);
+    tourlib_tour_serialize(tour, f_tour);
     fclose(f_tour);
 
     free(tour_file);
