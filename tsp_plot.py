@@ -189,7 +189,7 @@ def produce_diff(tsp_file, base_mst_file, test_mst_file, base_tour_file, test_to
     plot_cities(data, ax1)
     plot_cities(data, ax2)
 
-    plt.suptitle((f'[{data[name_key]}] MST {"PASS" if mst_pass else "FAILED"}' if base_mst_file != '' else '' ) + (f' TOUR: {"PASS" if tour_pass else "FAILED"}' if base_tour_file != '' else ''))
+    plt.suptitle((f'[{data[name_key]}] MST {"PASS" if mst_pass else "FAILED"}\n' if base_mst_file != '' else '' ) + (f'[{data[name_key]}] TOUR: {"PASS" if tour_pass else "FAILED"}' if base_tour_file != '' else ''))
 
     plt.tight_layout()
     plt.show()
