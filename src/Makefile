@@ -28,7 +28,7 @@ RELEASEDIR = $(BUILDIR)/release
 # CCompiler - é o compilador usado
 # CFLAGS - são as flags dadas ao compilador durante a compilação
 CC = gcc
-override CFLAGS += -Wall -Wextra -g -I $(LIBTSPDIR)/include -I $(LIBTOURDIR)/include -I $(LIBCONTAINERSDIR)/include -lm
+override CFLAGS += -Wall -Wextra -I $(LIBTSPDIR)/include -I $(LIBTOURDIR)/include -I $(LIBCONTAINERSDIR)/include -lm
 
 DEBUGFLAGS = -ggdb3 -O0 -DDEBUG
 RELEASEFLAGS = -O3 -DNDEBUG

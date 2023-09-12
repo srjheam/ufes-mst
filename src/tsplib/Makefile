@@ -24,7 +24,7 @@ OBJSRELEASE = $(patsubst %.c, $(BUILDIR)/release/%.o, $(notdir $(SRCS)))
 # CCompiler - é o compilador usado
 # CFLAGS - são as flags dadas ao compilador durante a compilação
 CC = gcc
-override CFLAGS += -Wall -Wextra -g -I $(INCLUDE) -lm
+override CFLAGS += -Wall -Wextra -I $(INCLUDE) -lm
 
 DEBUGFLAGS = -ggdb3 -O0 -DDEBUG
 RELEASEFLAGS = -O3 -DNDEBUG
