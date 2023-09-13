@@ -19,7 +19,7 @@ Tour *tourlib_tour_init(char *name, int dimension) {
     tour->name = name;
     tour->dimension = dimension;
     // tour->vertexes = NULL;
-    tour->vertexes = calloc(sizeof(int), (tour->dimension + 1));
+    tour->vertexes = malloc(sizeof(int) * (tour->dimension + 1));
 
     // tour->vertexes = vertexes;
 
