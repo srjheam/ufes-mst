@@ -64,7 +64,6 @@ void tourlib_generate_travel(Tsp* tsp, Mst **out_mst, Tour **out_tour) {
     #endif
 
     int lmst_edges = 0;
-    // Edge *mst_edges = malloc(sizeof(Edge) * (dimension - 1));
 
     *out_mst = tourlib_mst_init(strdup(tsplib_tsp_name(tsp)), dimension);
 
@@ -85,7 +84,6 @@ void tourlib_generate_travel(Tsp* tsp, Mst **out_mst, Tour **out_tour) {
             disjointset_union(ds, curr.id_u - 1, curr.id_v - 1);
             tourlib_mst_add_edge(*out_mst, curr.id_u, curr.id_v);
 
-            // mst_edges[lmst_edges++] = curr;
             lmst_edges++;
         }
     }
@@ -97,11 +95,7 @@ void tourlib_generate_travel(Tsp* tsp, Mst **out_mst, Tour **out_tour) {
     free(edges);
     #endif
 
-    // tourlib_mst_print(*out_mst);
-
-    // *out_mst = tourlib_mst_init(strdup(tsplib_tsp_name(tsp)), dimension, mst_edges);
     *out_tour = tourlib_tour_init(strdup(tsplib_tsp_name(tsp)), dimension);
-
     tourlib_tour_path(*out_tour, tourlib_mst_edges(*out_mst));
 }
 
@@ -115,7 +109,7 @@ void tourlib_generate_travel(Tsp* tsp, Mst **out_mst, Tour **out_tour) {
 //                                                                                        |___/                                                         
 //                                                             
 //                                                                    _                 _     _   _     _                                          ___  
-//                                                                    | |               | |   | | | |   (_)                                        |__ \ 
+//                                                                    | |               | |   | | | |   (_)                                        |__ |
 //                                                                __ _| |__   ___  _   _| |_  | |_| |__  _ ___  __      _____  _ __ ___   __ _ _ __   ) |
 //                                                               / _` | '_ \ / _ \| | | | __| | __| '_ \| / __| \ \ /\ / / _ \| '_ ` _ \ / _` | '_ \ / / 
 //                                                              | (_| | |_) | (_) | |_| | |_  | |_| | | | \__ \  \ V  V / (_) | | | | | | (_| | | | |_|  

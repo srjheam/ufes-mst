@@ -7,7 +7,7 @@ void tourlib_tour_serialize(Tour *tour, FILE *f) {
     fprintf(f, "TOUR_SECTION\n");
 
     int *vertexes = tourlib_tour_vertexes(tour);
-    for (int i = 1; i < tourlib_tour_dimension(tour) + 1; i++) {
+    for (int i = 0; i < tourlib_tour_dimension(tour); i++) {
         fprintf(f, "%d\n", vertexes[i]);
     }
     fprintf(f, "EOF\n");
