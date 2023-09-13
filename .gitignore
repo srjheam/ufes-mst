@@ -15,6 +15,7 @@ build/
 exemplos/
 
 # python shit
+.cache/
 __pycache__/
 ufes-mst/
 
