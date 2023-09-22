@@ -14,7 +14,7 @@ int main(int argc, char const *argv[])
         return EXIT_FAILURE;
     }
 
-    #ifdef BENCHMARK
+    #ifdef BENCHMARKFULL
     #include <time.h>
     clock_t setup_time = clock();
     #endif
@@ -23,7 +23,7 @@ int main(int argc, char const *argv[])
     Tsp *tsp = tsplib_tsp_deserialize(f);
     fclose(f);
 
-    #ifdef BENCHMARK
+    #ifdef BENCHMARKFULL
     printf("%lf\n", (double)(clock() - setup_time) / CLOCKS_PER_SEC);
     #endif
 
@@ -41,7 +41,7 @@ int main(int argc, char const *argv[])
     printf("%lf\n", (double)(clock() - start_time) / CLOCKS_PER_SEC);
     #endif
 
-    #ifdef BENCHMARK
+    #ifdef BENCHMARKFULL
     #include <time.h>
     clock_t mstfile_time = clock();
     #endif
@@ -56,11 +56,11 @@ int main(int argc, char const *argv[])
 
     free(mst_file);
 
-    #ifdef BENCHMARK
+    #ifdef BENCHMARKFULL
     printf("%lf\n", (double)(clock() - mstfile_time) / CLOCKS_PER_SEC);
     #endif
 
-    #ifdef BENCHMARK
+    #ifdef BENCHMARKFULL
     #include <time.h>
     clock_t tourfile_time = clock();
     #endif
@@ -75,7 +75,7 @@ int main(int argc, char const *argv[])
 
     free(tour_file);
 
-    #ifdef BENCHMARK
+    #ifdef BENCHMARKFULL
     printf("%lf\n", (double)(clock() - tourfile_time) / CLOCKS_PER_SEC);
     #endif
 

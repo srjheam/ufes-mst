@@ -30,7 +30,7 @@ void tourlib_generate_travel(Tsp* tsp, Mst **out_mst, Tour **out_tour) {
     // algorithm Kruskal(G) is
     // F:= ∅
 
-    #ifdef BENCHMARK
+    #ifdef BENCHMARKFULL
     #include <time.h>
     clock_t distances_time = clock();
     #endif
@@ -65,11 +65,11 @@ void tourlib_generate_travel(Tsp* tsp, Mst **out_mst, Tour **out_tour) {
         }
     }
 
-    #ifdef BENCHMARK
+    #ifdef BENCHMARKFULL
     printf("%lf\n", (double)(clock() - distances_time) / CLOCKS_PER_SEC);
     #endif
 
-    #ifdef BENCHMARK
+    #ifdef BENCHMARKFULL
     #include <time.h>
     clock_t sorting_time = clock();
     #endif
@@ -78,11 +78,11 @@ void tourlib_generate_travel(Tsp* tsp, Mst **out_mst, Tour **out_tour) {
     qsort(edges, dimension * (dimension - 1) / 2, sizeof(Edge), (cmp_fn)__cmp_edges);
     #endif
 
-    #ifdef BENCHMARK
+    #ifdef BENCHMARKFULL
     printf("%lf\n", (double)(clock() - sorting_time) / CLOCKS_PER_SEC);
     #endif
 
-    #ifdef BENCHMARK
+    #ifdef BENCHMARKFULL
     #include <time.h>
     clock_t mstexec_time = clock();
     #endif
@@ -113,7 +113,7 @@ void tourlib_generate_travel(Tsp* tsp, Mst **out_mst, Tour **out_tour) {
     }
     disjointset_free(ds);
 
-    #ifdef BENCHMARK
+    #ifdef BENCHMARKFULL
     printf("%lf\n", (double)(clock() - mstexec_time) / CLOCKS_PER_SEC);
     #endif
 
@@ -123,7 +123,7 @@ void tourlib_generate_travel(Tsp* tsp, Mst **out_mst, Tour **out_tour) {
     free(edges);
     #endif
 
-    #ifdef BENCHMARK
+    #ifdef BENCHMARKFULL
     #include <time.h>
     clock_t tourexec_time = clock();
     #endif
@@ -131,7 +131,7 @@ void tourlib_generate_travel(Tsp* tsp, Mst **out_mst, Tour **out_tour) {
     *out_tour = tourlib_tour_init(strdup(tsplib_tsp_name(tsp)), dimension);
     tourlib_tour_path(*out_tour, tourlib_mst_edges(*out_mst));
 
-    #ifdef BENCHMARK
+    #ifdef BENCHMARKFULL
     printf("%lf\n", (double)(clock() - tourexec_time) / CLOCKS_PER_SEC);
     #endif
 }
