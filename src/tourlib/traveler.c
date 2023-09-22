@@ -29,6 +29,12 @@ int __cmp_edges(const Edge *u, const Edge *v) {
 void tourlib_generate_travel(Tsp* tsp, Mst **out_mst, Tour **out_tour) {
     // algorithm Kruskal(G) is
     // F:= ∅
+
+    #ifdef BENCHMARK
+    #include <time.h>
+    clock_t distances_time = clock();
+    #endif
+
     int dimension = tsplib_tsp_dimension(tsp);
     #ifdef EX_HEAP
     Heap *heap = heap_init(MIN_HEAP, dimension * (dimension - 1) / 2, sizeof(Edge), NULL);
@@ -59,8 +65,26 @@ void tourlib_generate_travel(Tsp* tsp, Mst **out_mst, Tour **out_tour) {
         }
     }
 
+    #ifdef BENCHMARK
+    printf("%lf\n", (double)(clock() - distances_time) / CLOCKS_PER_SEC);
+    #endif
+
+    #ifdef BENCHMARK
+    #include <time.h>
+    clock_t sorting_time = clock();
+    #endif
+
     #ifndef EX_HEAP
     qsort(edges, dimension * (dimension - 1) / 2, sizeof(Edge), (cmp_fn)__cmp_edges);
+    #endif
+
+    #ifdef BENCHMARK
+    printf("%lf\n", (double)(clock() - sorting_time) / CLOCKS_PER_SEC);
+    #endif
+
+    #ifdef BENCHMARK
+    #include <time.h>
+    clock_t mstexec_time = clock();
     #endif
 
     int lmst_edges = 0;
@@ -89,14 +113,27 @@ void tourlib_generate_travel(Tsp* tsp, Mst **out_mst, Tour **out_tour) {
     }
     disjointset_free(ds);
 
+    #ifdef BENCHMARK
+    printf("%lf\n", (double)(clock() - mstexec_time) / CLOCKS_PER_SEC);
+    #endif
+
     #ifdef EX_HEAP
     heap_free(heap);
     #else
     free(edges);
     #endif
 
+    #ifdef BENCHMARK
+    #include <time.h>
+    clock_t tourexec_time = clock();
+    #endif
+
     *out_tour = tourlib_tour_init(strdup(tsplib_tsp_name(tsp)), dimension);
     tourlib_tour_path(*out_tour, tourlib_mst_edges(*out_mst));
+
+    #ifdef BENCHMARK
+    printf("%lf\n", (double)(clock() - tourexec_time) / CLOCKS_PER_SEC);
+    #endif
 }
 
 //                                                              _    _                                           _                                   _  
