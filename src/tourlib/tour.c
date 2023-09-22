@@ -10,9 +10,6 @@ struct Tour
     int *vertexes;
 };
 
-
-// Tour *tourlib_tour_init(char *name, int dimension, int *vertexes);
-
 Tour *tourlib_tour_init(char *name, int dimension) {
     Tour *tour = malloc(sizeof *tour);
 

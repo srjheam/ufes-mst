@@ -6,7 +6,6 @@
 
 typedef struct Mst Mst;
 
-// Mst *tourlib_mst_init(char *name, int dimension, Edge *edges);
 Mst *tourlib_mst_init(char *name, int dimension);
 
 void tourlib_mst_add_edge(Mst *mst, int id_u, int id_v);

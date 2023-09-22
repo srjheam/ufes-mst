@@ -9,19 +9,14 @@
 struct Mst {
     char *name;
     int dimension;
-    // Edge *edges;
     LinkedList **adjacency_list;
 };
-
-
-// Mst *tourlib_mst_init(char *name, int dimension, Edge *edges);
 
 Mst *tourlib_mst_init(char *name, int dimension) {
     Mst *mst = malloc(sizeof *mst);
 
     mst->name = name;
     mst->dimension = dimension;
-    // mst->edges = edges;
     
     mst->adjacency_list = malloc(sizeof(LinkedList *) * dimension);
 
@@ -45,14 +40,11 @@ int tourlib_mst_dimension(Mst *mst) {
 }
 
 LinkedList **tourlib_mst_edges(Mst *mst) {
-    // return mst->edges;
     return mst->adjacency_list;
 }
 
 void tourlib_mst_free(Mst *mst) {
     free(mst->name);
-
-    // free(mst->edges);
 
     for(int i = 0; i < mst->dimension; i++) {
         linked_list_free(mst->adjacency_list[i]);
