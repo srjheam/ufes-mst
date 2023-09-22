@@ -24,7 +24,7 @@ int main(int argc, char const *argv[])
     fclose(f);
 
     #ifdef BENCHMARKFULL
-    printf("%lf\n", (double)(clock() - setup_time) / CLOCKS_PER_SEC);
+    printf("Leitura de arquivos de entrada: %lf\n", (double)(clock() - setup_time) / CLOCKS_PER_SEC);
     #endif
 
     Mst *mst;
@@ -57,7 +57,7 @@ int main(int argc, char const *argv[])
     free(mst_file);
 
     #ifdef BENCHMARKFULL
-    printf("%lf\n", (double)(clock() - mstfile_time) / CLOCKS_PER_SEC);
+    printf("Escrita do arquivo de saída da MST: %lf\n", (double)(clock() - mstfile_time) / CLOCKS_PER_SEC);
     #endif
 
     #ifdef BENCHMARKFULL
@@ -76,7 +76,7 @@ int main(int argc, char const *argv[])
     free(tour_file);
 
     #ifdef BENCHMARKFULL
-    printf("%lf\n", (double)(clock() - tourfile_time) / CLOCKS_PER_SEC);
+    printf("Escrita do arquivo de saída do tour: %lf\n", (double)(clock() - tourfile_time) / CLOCKS_PER_SEC);
     #endif
 
     tsplib_tsp_free(tsp);

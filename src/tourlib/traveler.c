@@ -1,5 +1,5 @@
 #include <string.h>
-#include <stdlib.h>
+#include <stdio.h>
 #include <math.h>
 #include <float.h>
 
@@ -67,7 +67,7 @@ void tourlib_generate_travel(Tsp* tsp, Mst **out_mst, Tour **out_tour) {
     }
 
     #ifdef BENCHMARKFULL
-    printf("%lf\n", (double)(clock() - distances_time) / CLOCKS_PER_SEC);
+    printf("Calculo das distâncias: %lf\n", (double)(clock() - distances_time) / CLOCKS_PER_SEC);
     #endif
 
     #ifdef BENCHMARKFULL
@@ -80,7 +80,11 @@ void tourlib_generate_travel(Tsp* tsp, Mst **out_mst, Tour **out_tour) {
     #endif
 
     #ifdef BENCHMARKFULL
-    printf("%lf\n", (double)(clock() - sorting_time) / CLOCKS_PER_SEC);
+    #ifndef EX_HEAP
+    printf("Ordenação das distâncias: %lf\n", (double)(clock() - sorting_time) / CLOCKS_PER_SEC);
+    #else
+    printf("Ordenação das distâncias: 0.000000\n");
+    #endif
     #endif
 
     #ifdef BENCHMARKFULL
@@ -115,7 +119,7 @@ void tourlib_generate_travel(Tsp* tsp, Mst **out_mst, Tour **out_tour) {
     disjointset_free(ds);
 
     #ifdef BENCHMARKFULL
-    printf("%lf\n", (double)(clock() - mstexec_time) / CLOCKS_PER_SEC);
+    printf("Obtenção da MST: %lf\n", (double)(clock() - mstexec_time) / CLOCKS_PER_SEC);
     #endif
 
     #ifdef EX_HEAP
@@ -133,7 +137,7 @@ void tourlib_generate_travel(Tsp* tsp, Mst **out_mst, Tour **out_tour) {
     tourlib_tour_path(*out_tour, tourlib_mst_edges(*out_mst));
 
     #ifdef BENCHMARKFULL
-    printf("%lf\n", (double)(clock() - tourexec_time) / CLOCKS_PER_SEC);
+    printf("Obtenção do tour: %lf\n", (double)(clock() - tourexec_time) / CLOCKS_PER_SEC);
     #endif
 }
 
