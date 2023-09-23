@@ -20,6 +20,15 @@ Tour *tourlib_tour_init(char *name, int dimension) {
     return tour;
 }
 
+/**
+ * @brief Depth-first search algorithm to find a path in a graph.
+ * 
+ * @param tour The tour.
+ * @param visited The array of visited vertexes.
+ * @param adjacency_list The adjacency list.
+ * @param vertex The current vertex.
+ * @param find_count The number of vertexes found.
+ */
 void __tourlib_tour_dfs(Tour *tour, int *visited, LinkedList **adjacency_list, int vertex, int *find_count) {
     //setting the bit [vertex - 1] on the visited array as 1
     visited[(vertex - 1)/32] |= 1 << ((vertex - 1)%32);
